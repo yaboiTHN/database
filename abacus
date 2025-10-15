@@ -1,9 +1,6 @@
 CREATE DATABASE AbaccusDB;
 USE AbaccusDB;
 
--- =========================
--- 1. CUSTOMER TABLE
--- =========================
 CREATE TABLE Customer (
     Customer_ID INT AUTO_INCREMENT PRIMARY KEY,
     CustomerName VARCHAR(100) NOT NULL,
@@ -13,15 +10,12 @@ CREATE TABLE Customer (
 );
 
 INSERT INTO Customer (CustomerName, Address, Phone, Email) VALUES
-('John Cruz', 'Quezon City', '09171234567', 'johncruz@email.com'),
-('Maria Santos', 'Pasig City', '09182345678', 'mariasantos@email.com'),
-('Kevin Reyes', 'Makati City', '09193456789', 'kevinreyes@email.com'),
-('Angela Dela Cruz', 'Taguig City', '09204567890', 'angeladc@email.com'),
-('Rico Fernandez', 'Manila City', '09315678901', 'ricofernandez@email.com');
+('Brian Tan', 'Cebu City', '09951234567', 'brian.tan@mail.com'),
+('Julia Ramos', 'Davao City', '09181239876', 'julia.ramos@mail.com'),
+('Patrick Go', 'Baguio City', '09283456712', 'patrickgo@mail.com'),
+('Nina Torres', 'Iloilo City', '09394567890', 'nina.torres@mail.com'),
+('Ralph Medina', 'Cagayan de Oro', '09505678934', 'ralphmedina@mail.com');
 
--- =========================
--- 2. EMPLOYEE TABLE
--- =========================
 CREATE TABLE Employee (
     Employee_ID INT AUTO_INCREMENT PRIMARY KEY,
     EmployeeName VARCHAR(100) NOT NULL,
@@ -32,11 +26,11 @@ CREATE TABLE Employee (
 );
 
 INSERT INTO Employee (EmployeeName, Address, Phone, Email, Role) VALUES
-('Lara Mendoza', 'Quezon City', '09191234567', 'lara@email.com', 'Cashier'),
-('Mark Villanueva', 'Caloocan City', '09203456789', 'markv@email.com', 'Sales Clerk'),
-('Samantha Ong', 'Pasay City', '09314567890', 'samantha@email.com', 'Manager'),
-('Ian Garcia', 'Mandaluyong City', '09425678901', 'ian@email.com', 'Inventory Clerk'),
-('Elaine Ramos', 'Pasig City', '09536789012', 'elaine@email.com', 'Sales Clerk');
+('Andrea Cruz', 'Cebu City', '09172234567', 'andrea.cruz@mail.com', 'Cashier'),
+('Joshua Lim', 'Bacolod City', '09283345678', 'joshua.lim@mail.com', 'Sales Clerk'),
+('Sofia Uy', 'Davao City', '09394456789', 'sofia.uy@mail.com', 'Manager'),
+('Gabriel Tan', 'Tagbilaran City', '09415567890', 'gabriel.tan@mail.com', 'Inventory Clerk'),
+('Liza Reyes', 'Dumaguete City', '09526678901', 'liza.reyes@mail.com', 'Sales Clerk');
 
 -- =========================
 -- 3. SUPPLIER TABLE
@@ -50,15 +44,13 @@ CREATE TABLE Supplier (
 );
 
 INSERT INTO Supplier (SupplierName, ContactPerson, Phone, Email) VALUES
-('TechSupply Co.', 'James Lim', '09181234567', 'techsupply@email.com'),
-('GadgetHub Inc.', 'Carla Torres', '09292345678', 'gadgethub@email.com'),
-('PC Masters', 'Leo Santos', '09303456789', 'pcmasters@email.com'),
-('Digital Works', 'Rhea Lopez', '09414567890', 'digitalworks@email.com'),
-('IT Source PH', 'Miguel Cruz', '09525678901', 'itsource@email.com');
+('NextGen Electronics', 'Paul Dizon', '09173334455', 'nextgen@mail.com'),
+('MegaTech Distribution', 'Clarisse Chua', '09284445566', 'megatech@mail.com'),
+('CompuLink PH', 'Victor Ong', '09395556677', 'compulink@mail.com'),
+('Digital Edge', 'Janine Flores', '09416667788', 'digitaledge@mail.com'),
+('ByteSource Inc.', 'Arthur Lee', '09527778899', 'bytesource@mail.com');
 
--- =========================
--- 4. PRODUCT TABLE
--- =========================
+
 CREATE TABLE Product (
     Product_ID INT AUTO_INCREMENT PRIMARY KEY,
     ProductName VARCHAR(100) NOT NULL,
@@ -72,15 +64,13 @@ CREATE TABLE Product (
 );
 
 INSERT INTO Product (ProductName, Description, Category, UnitPrice, Supplier_ID) VALUES
-('Acer Aspire 5', '15-inch laptop with Intel i5 processor', 'Laptop', 35000.00, 1),
-('HP Pavilion', 'Laptop with Ryzen 5 processor', 'Laptop', 40000.00, 2),
-('Logitech Mouse', 'Wireless optical mouse', 'Peripheral', 800.00, 3),
-('Dell Monitor 24"', 'Full HD LED monitor', 'Monitor', 7000.00, 4),
-('Kingston SSD 500GB', 'High-speed solid state drive', 'Storage', 2500.00, 5);
+('Lenovo IdeaPad 3', '14-inch laptop with Ryzen 3 processor', 'Laptop', 29999.00, 1),
+('ASUS VivoBook', 'Slim laptop with Intel i5 processor', 'Laptop', 38999.00, 2),
+('Razer Mouse', 'High-precision gaming mouse', 'Peripheral', 2200.00, 3),
+('Samsung Monitor 27"', 'Full HD curved LED monitor', 'Monitor', 8999.00, 4),
+('Crucial SSD 1TB', 'Solid-state drive with fast transfer rate', 'Storage', 3800.00, 5);
 
--- =========================
--- 5. STOCK TABLE
--- =========================
+
 CREATE TABLE Stock (
     Stock_ID INT AUTO_INCREMENT PRIMARY KEY,
     Product_ID INT NOT NULL,
@@ -93,15 +83,13 @@ CREATE TABLE Stock (
 );
 
 INSERT INTO Stock (Product_ID, CurrentQty, MaxQty, LastUpdated) VALUES
-(1, 10, 50, '2025-10-01'),
-(2, 8, 40, '2025-10-02'),
-(3, 30, 100, '2025-10-03'),
-(4, 15, 60, '2025-10-04'),
-(5, 25, 80, '2025-10-05');
+(1, 12, 60, '2025-10-06'),
+(2, 9, 45, '2025-10-07'),
+(3, 40, 120, '2025-10-08'),
+(4, 18, 70, '2025-10-09'),
+(5, 30, 90, '2025-10-10');
 
--- =========================
--- 6. SALE TABLE
--- =========================
+
 CREATE TABLE Sale (
     Sale_ID INT AUTO_INCREMENT PRIMARY KEY,
     SaleDate DATE NOT NULL,
@@ -117,15 +105,13 @@ CREATE TABLE Sale (
 );
 
 INSERT INTO Sale (SaleDate, TotalAmount, Customer_ID, Employee_ID) VALUES
-('2025-10-10', 35800.00, 1, 1),
-('2025-10-11', 40000.00, 2, 2),
-('2025-10-12', 7800.00, 3, 3),
-('2025-10-13', 2500.00, 4, 4),
-('2025-10-14', 7000.00, 5, 5);
+('2025-10-11', 32200.00, 1, 1),
+('2025-10-12', 38999.00, 2, 2),
+('2025-10-13', 8999.00, 3, 3),
+('2025-10-14', 3800.00, 4, 4),
+('2025-10-15', 2200.00, 5, 5);
 
--- =========================
--- 7. SALE_ITEM TABLE
--- =========================
+
 CREATE TABLE Sale_Item (
     SaleItem_ID INT AUTO_INCREMENT PRIMARY KEY,
     Sale_ID INT NOT NULL,
@@ -141,8 +127,5 @@ CREATE TABLE Sale_Item (
 );
 
 INSERT INTO Sale_Item (Sale_ID, Product_ID, Quantity, Price) VALUES
-(1, 1, 1, 35000.00),
-(1, 3, 1, 800.00),
-(2, 2, 1, 40000.00),
-(3, 4, 1, 7000.00),
-(4, 5, 1, 2500.00);
+(1, 1, 1, 29999.00),
+(1,
