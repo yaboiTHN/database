@@ -1,0 +1,117 @@
+CREATE TABLE Customer (
+    Customer_ID INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Address VARCHAR(200),
+    PhoneNumber VARCHAR(20),
+    Email VARCHAR(100)
+);
+
+CREATE TABLE Employee (
+    Employee_ID INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Address VARCHAR(200),
+    PhoneNumber VARCHAR(20),
+    Email VARCHAR(100),
+    Role VARCHAR(50)
+);
+
+CREATE TABLE Supplier (
+    Supplier_ID INT PRIMARY KEY,
+    SupplierName VARCHAR(100),
+    ContactPerson VARCHAR(100),
+    PhoneNumber VARCHAR(20),
+    Email VARCHAR(100)
+);
+
+CREATE TABLE Product (
+    Product_ID INT PRIMARY KEY,
+    ProductName VARCHAR(100),
+    Description VARCHAR(200),
+    Category VARCHAR(50),
+    Supplier_ID INT,
+    UnitPrice DECIMAL(10,2),
+    FOREIGN KEY (Supplier_ID) REFERENCES Supplier(Supplier_ID)
+);
+
+CREATE TABLE Stock (
+    Stock_ID INT PRIMARY KEY,
+    Product_ID INT,
+    CurrentQuantity INT,
+    MinimumStockLevel INT,
+    LastUpdated DATE,
+    FOREIGN KEY (Product_ID) REFERENCES Product(Product_ID)
+);
+
+CREATE TABLE Sale (
+    Sale_ID INT PRIMARY KEY,
+    SaleDate DATE,
+    TotalAmount DECIMAL(10,2),
+    Customer_ID INT,
+    Employee_ID INT,
+    FOREIGN KEY (Customer_ID) REFERENCES Customer(Customer_ID),
+    FOREIGN KEY (Employee_ID) REFERENCES Employee(Employee_ID)
+);
+
+CREATE TABLE Sale_Item (
+    SaleItem_ID INT PRIMARY KEY,
+    Sale_ID INT,
+    Product_ID INT,
+    Quantity INT,
+    Price DECIMAL(10,2),
+    FOREIGN KEY (Sale_ID) REFERENCES Sale(Sale_ID),
+    FOREIGN KEY (Product_ID) REFERENCES Product(Product_ID)
+);
+
+
+INSERT INTO Customer (Customer_ID, Name, Address, PhoneNumber, Email)
+VALUES
+(1, 'John Doe', '123 Elm Street', '09123456789', 'john@example.com'),
+(2, 'Jane Smith', '456 Oak Avenue', '09234567890', 'jane@example.com'),
+(3, 'Mike Johnson', '789 Pine Road', '09345678901', 'mike@example.com');
+
+INSERT INTO Employee (Employee_ID, Name, Address, PhoneNumber, Email, Role)
+VALUES
+(1, 'Anna Lopez', '101 Main Street', '09111111111', 'anna@example.com', 'Cashier'),
+(2, 'Brian Cruz', '202 Maple Avenue', '09222222222', 'brian@example.com', 'Manager'),
+(3, 'Carla Reyes', '303 Birch Lane', '09333333333', 'carla@example.com', 'Sales Clerk');
+
+INSERT INTO Supplier (Supplier_ID, SupplierName, ContactPerson, PhoneNumber, Email)
+VALUES
+(1, 'FreshMart', 'Leo Tan', '09444444444', 'leo@freshmart.com'),
+(2, 'SuperGoods', 'Mia Santos', '09555555555', 'mia@supergoods.com'),
+(3, 'DailyNeeds', 'Nico Lim', '09666666666', 'nico@dailyneeds.com');
+
+INSERT INTO Product (Product_ID, ProductName, Description, Category, Supplier_ID, UnitPrice)
+VALUES
+(1, 'Milk', '1L Fresh Milk', 'Dairy', 1, 75.00),
+(2, 'Bread', 'Whole Wheat Bread', 'Bakery', 2, 55.00),
+(3, 'Eggs', '1 Dozen Brown Eggs', 'Grocery', 3, 90.00);
+
+INSERT INTO Stock (Stock_ID, Product_ID, CurrentQuantity, MinimumStockLevel, LastUpdated)
+VALUES
+(1, 1, 50, 10, '2025-10-01'),
+(2, 2, 30, 5, '2025-10-02'),
+(3, 3, 20, 8, '2025-10-03');
+
+INSERT INTO Sale (Sale_ID, SaleDate, TotalAmount, Customer_ID, Employee_ID)
+VALUES
+(1, '2025-10-05', 220.00, 1, 1),
+(2, '2025-10-06', 145.00, 2, 2),
+(3, '2025-10-07', 90.00, 3, 3);
+
+INSERT INTO Sale_Item (SaleItem_ID, Sale_ID, Product_ID, Quantity, Price)
+VALUES
+(1, 1, 1, 2, 150.00),
+(2, 2, 2, 1, 55.00),
+(3, 3, 3, 1, 90.00);
+
+
+SHOW TABLES;
+
+SELECT * FROM Customer;
+SELECT * FROM Employee;
+SELECT * FROM Supplier;
+SELECT * FROM Product;
+SELECT * FROM Stock;
+SELECT * FROM Sale;
+SELECT * FROM Sale_Item;
