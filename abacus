@@ -1,0 +1,148 @@
+CREATE DATABASE AbaccusDB;
+USE AbaccusDB;
+
+-- =========================
+-- 1. CUSTOMER TABLE
+-- =========================
+CREATE TABLE Customer (
+    Customer_ID INT AUTO_INCREMENT PRIMARY KEY,
+    CustomerName VARCHAR(100) NOT NULL,
+    Address VARCHAR(150),
+    Phone VARCHAR(20),
+    Email VARCHAR(100)
+);
+
+INSERT INTO Customer (CustomerName, Address, Phone, Email) VALUES
+('John Cruz', 'Quezon City', '09171234567', 'johncruz@email.com'),
+('Maria Santos', 'Pasig City', '09182345678', 'mariasantos@email.com'),
+('Kevin Reyes', 'Makati City', '09193456789', 'kevinreyes@email.com'),
+('Angela Dela Cruz', 'Taguig City', '09204567890', 'angeladc@email.com'),
+('Rico Fernandez', 'Manila City', '09315678901', 'ricofernandez@email.com');
+
+-- =========================
+-- 2. EMPLOYEE TABLE
+-- =========================
+CREATE TABLE Employee (
+    Employee_ID INT AUTO_INCREMENT PRIMARY KEY,
+    EmployeeName VARCHAR(100) NOT NULL,
+    Address VARCHAR(150),
+    Phone VARCHAR(20),
+    Email VARCHAR(100),
+    Role VARCHAR(50)
+);
+
+INSERT INTO Employee (EmployeeName, Address, Phone, Email, Role) VALUES
+('Lara Mendoza', 'Quezon City', '09191234567', 'lara@email.com', 'Cashier'),
+('Mark Villanueva', 'Caloocan City', '09203456789', 'markv@email.com', 'Sales Clerk'),
+('Samantha Ong', 'Pasay City', '09314567890', 'samantha@email.com', 'Manager'),
+('Ian Garcia', 'Mandaluyong City', '09425678901', 'ian@email.com', 'Inventory Clerk'),
+('Elaine Ramos', 'Pasig City', '09536789012', 'elaine@email.com', 'Sales Clerk');
+
+-- =========================
+-- 3. SUPPLIER TABLE
+-- =========================
+CREATE TABLE Supplier (
+    Supplier_ID INT AUTO_INCREMENT PRIMARY KEY,
+    SupplierName VARCHAR(100) NOT NULL,
+    ContactPerson VARCHAR(100),
+    Phone VARCHAR(20),
+    Email VARCHAR(100)
+);
+
+INSERT INTO Supplier (SupplierName, ContactPerson, Phone, Email) VALUES
+('TechSupply Co.', 'James Lim', '09181234567', 'techsupply@email.com'),
+('GadgetHub Inc.', 'Carla Torres', '09292345678', 'gadgethub@email.com'),
+('PC Masters', 'Leo Santos', '09303456789', 'pcmasters@email.com'),
+('Digital Works', 'Rhea Lopez', '09414567890', 'digitalworks@email.com'),
+('IT Source PH', 'Miguel Cruz', '09525678901', 'itsource@email.com');
+
+-- =========================
+-- 4. PRODUCT TABLE
+-- =========================
+CREATE TABLE Product (
+    Product_ID INT AUTO_INCREMENT PRIMARY KEY,
+    ProductName VARCHAR(100) NOT NULL,
+    Description TEXT,
+    Category VARCHAR(50),
+    UnitPrice DECIMAL(10,2),
+    Supplier_ID INT,
+    FOREIGN KEY (Supplier_ID) REFERENCES Supplier(Supplier_ID)
+        ON UPDATE CASCADE
+        ON DELETE SET NULL
+);
+
+INSERT INTO Product (ProductName, Description, Category, UnitPrice, Supplier_ID) VALUES
+('Acer Aspire 5', '15-inch laptop with Intel i5 processor', 'Laptop', 35000.00, 1),
+('HP Pavilion', 'Laptop with Ryzen 5 processor', 'Laptop', 40000.00, 2),
+('Logitech Mouse', 'Wireless optical mouse', 'Peripheral', 800.00, 3),
+('Dell Monitor 24"', 'Full HD LED monitor', 'Monitor', 7000.00, 4),
+('Kingston SSD 500GB', 'High-speed solid state drive', 'Storage', 2500.00, 5);
+
+-- =========================
+-- 5. STOCK TABLE
+-- =========================
+CREATE TABLE Stock (
+    Stock_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Product_ID INT NOT NULL,
+    CurrentQty INT DEFAULT 0,
+    MaxQty INT DEFAULT 0,
+    LastUpdated DATE,
+    FOREIGN KEY (Product_ID) REFERENCES Product(Product_ID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+INSERT INTO Stock (Product_ID, CurrentQty, MaxQty, LastUpdated) VALUES
+(1, 10, 50, '2025-10-01'),
+(2, 8, 40, '2025-10-02'),
+(3, 30, 100, '2025-10-03'),
+(4, 15, 60, '2025-10-04'),
+(5, 25, 80, '2025-10-05');
+
+-- =========================
+-- 6. SALE TABLE
+-- =========================
+CREATE TABLE Sale (
+    Sale_ID INT AUTO_INCREMENT PRIMARY KEY,
+    SaleDate DATE NOT NULL,
+    TotalAmount DECIMAL(10,2),
+    Customer_ID INT,
+    Employee_ID INT,
+    FOREIGN KEY (Customer_ID) REFERENCES Customer(Customer_ID)
+        ON UPDATE CASCADE
+        ON DELETE SET NULL,
+    FOREIGN KEY (Employee_ID) REFERENCES Employee(Employee_ID)
+        ON UPDATE CASCADE
+        ON DELETE SET NULL
+);
+
+INSERT INTO Sale (SaleDate, TotalAmount, Customer_ID, Employee_ID) VALUES
+('2025-10-10', 35800.00, 1, 1),
+('2025-10-11', 40000.00, 2, 2),
+('2025-10-12', 7800.00, 3, 3),
+('2025-10-13', 2500.00, 4, 4),
+('2025-10-14', 7000.00, 5, 5);
+
+-- =========================
+-- 7. SALE_ITEM TABLE
+-- =========================
+CREATE TABLE Sale_Item (
+    SaleItem_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Sale_ID INT NOT NULL,
+    Product_ID INT NOT NULL,
+    Quantity INT NOT NULL,
+    Price DECIMAL(10,2),
+    FOREIGN KEY (Sale_ID) REFERENCES Sale(Sale_ID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY (Product_ID) REFERENCES Product(Product_ID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+INSERT INTO Sale_Item (Sale_ID, Product_ID, Quantity, Price) VALUES
+(1, 1, 1, 35000.00),
+(1, 3, 1, 800.00),
+(2, 2, 1, 40000.00),
+(3, 4, 1, 7000.00),
+(4, 5, 1, 2500.00);
