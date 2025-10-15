@@ -1,0 +1,98 @@
+-- Create database
+CREATE DATABASE Jabee;
+USE Jabee;
+
+-- Table: Supplier
+CREATE TABLE Supplier (
+    Supplier_ID INT PRIMARY KEY,
+    Item_ID INT,
+    Contact_Person VARCHAR(100),
+    Payment_Terms VARCHAR(50),
+    Supplier_Name VARCHAR(100)
+);
+
+INSERT INTO Supplier VALUES
+(1, 101, 'Maria Lopez', '30 Days', 'FreshMart Supplies'),
+(2, 102, 'John Cruz', '15 Days', 'SuperGoods Co.'),
+(3, 103, 'Ella Santos', '7 Days', 'Prime Essentials');
+
+-- Table: Delivery
+CREATE TABLE Delivery (
+    Delivery_ID INT PRIMARY KEY,
+    Supplier_ID INT,
+    Delivery_Date DATE,
+    Received_By VARCHAR(100),
+    OR_Number VARCHAR(50),
+    Total_Items INT,
+    Status VARCHAR(50),
+    FOREIGN KEY (Supplier_ID) REFERENCES Supplier(Supplier_ID)
+);
+
+INSERT INTO Delivery VALUES
+(201, 1, '2025-10-01', 'Carlos Reyes', 'OR-3001', 25, 'Completed'),
+(202, 2, '2025-10-05', 'Anna Gomez', 'OR-3002', 18, 'Pending'),
+(203, 3, '2025-10-10', 'Mark Dela Cruz', 'OR-3003', 30, 'Completed');
+
+-- Table: Stock_Item
+CREATE TABLE Stock_Item (
+    Item_ID INT PRIMARY KEY,
+    Supplier_ID INT,
+    Item_Name VARCHAR(100),
+    Category VARCHAR(50),
+    Unit_Of_Measure VARCHAR(50),
+    Standard_Cost DECIMAL(10,2),
+    Delivery_ID INT,
+    FOREIGN KEY (Supplier_ID) REFERENCES Supplier(Supplier_ID),
+    FOREIGN KEY (Delivery_ID) REFERENCES Delivery(Delivery_ID)
+);
+
+INSERT INTO Stock_Item VALUES
+(101, 1, 'Canned Tuna', 'Food', 'Pieces', 45.00, 201),
+(102, 2, 'Laundry Soap', 'Household', 'Boxes', 60.00, 202),
+(103, 3, 'Cooking Oil', 'Grocery', 'Bottles', 85.00, 203);
+
+-- Table: Transaction
+CREATE TABLE Transaction (
+    Transaction_ID INT PRIMARY KEY,
+    Store_ID INT,
+    Business_Date DATE,
+    Date_Time DATETIME,
+    Cashier_ID INT,
+    Total_Amount DECIMAL(10,2),
+    Payment_Type VARCHAR(50)
+);
+
+INSERT INTO Transaction VALUES
+(301, 1, '2025-10-10', '2025-10-10 09:15:00', 501, 250.00, 'Cash'),
+(302, 1, '2025-10-11', '2025-10-11 14:45:00', 502, 600.00, 'Card'),
+(303, 2, '2025-10-12', '2025-10-12 18:20:00', 503, 150.00, 'Cash');
+
+-- Table: Sales_Report
+CREATE TABLE Sales_Report (
+    Report_ID INT PRIMARY KEY,
+    Transaction_ID INT,
+    Report_No VARCHAR(50),
+    Report_Date DATE,
+    Gross_Sales DECIMAL(10,2),
+    Net_Sales DECIMAL(10,2),
+    FOREIGN KEY (Transaction_ID) REFERENCES Transaction(Transaction_ID)
+);
+
+INSERT INTO Sales_Report VALUES
+(401, 301, 'SR-001', '2025-10-10', 250.00, 245.00),
+(402, 302, 'SR-002', '2025-10-11', 600.00, 590.00),
+(403, 303, 'SR-003', '2025-10-12', 150.00, 148.00);
+
+-- Table: Receipt
+CREATE TABLE Receipt (
+    Receipt_No INT PRIMARY KEY,
+    Transaction_ID INT,
+    Printed_Time DATETIME,
+    Total_Amount DECIMAL(10,2),
+    FOREIGN KEY (Transaction_ID) REFERENCES Transaction(Transaction_ID)
+);
+
+INSERT INTO Receipt VALUES
+(501, 301, '2025-10-10 09:20:00', 250.00),
+(502, 302, '2025-10-11 14:50:00', 600.00),
+(503, 303, '2025-10-12 18:25:00', 150.00);
